@@ -63,6 +63,7 @@ int eg_tcp_client(void)
         exit(1);  
     } 
     while(1){
+        printf("ready to get data!\n");
     if((num=recv(sockfd,buf,MAXDATASIZE,0)) == -1){  
         printf("recv() error\n");
         
