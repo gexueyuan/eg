@@ -44,6 +44,9 @@ extern    int hidapi_v();
 
 extern  void usbto322_init();
 
+
+extern     int eg_tcp_client(void);  
+
 void global_init(void)
 {
 
@@ -58,7 +61,8 @@ int main(int argc, char *argv[])
         osal_sleep(1000);
 		//hidapi_test();
 		osal_printf("\nFirm: %s[%s,%s %s]\n\n", FIRMWARE_VERSION, FIRMWARE_IDEN, __TIME__, __DATE__);
-
+        
+        eg_tcp_client();  
         //test();
     }
 }
