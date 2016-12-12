@@ -31,7 +31,14 @@
 #include "cv_cms_def.h"
 
 
+void usb_main_proc(sys_msg_t *p_msg)
+{
+    
 
+
+
+
+}
 
 
 
@@ -58,12 +65,7 @@ void *eg_usbto322_thread_entry(void *parameter)
     // cur_dev = cur_dev->next;
     // }
     hid_free_enumeration(devs);
-
-
-
-
-
-    
+  
 
     while (1){
         osal_sleep(1000);

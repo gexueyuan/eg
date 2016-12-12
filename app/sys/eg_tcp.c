@@ -42,14 +42,15 @@ int eg_tcp_client(void)
     int  sockfd, num;  
     char  buf[MAXDATASIZE];  
     struct hostent *he;  
-    struct sockaddr_in server;  
  
-  
-    if((sockfd=socket(AF_INET, SOCK_STREAM, 0))==-1){  
+  //创建套接字
+    if((sockfd=socket(AF_INET, SOCK_STREAM, 0)) < 0){  
         printf("socket()error\n");  
         exit(1);  
     }  
-    
+
+    //指定server地址    
+    struct sockaddr_in server;  
     bzero(&server,sizeof(server));  
     server.sin_family= AF_INET;  
     server.sin_port = htons(PORT);  
@@ -57,11 +58,14 @@ int eg_tcp_client(void)
         printf("inet_pton error for %s\n",SERVERADDR);
         exit(0);
     }
-    
+
+    //发起连接操作
     if(connect(sockfd,(struct sockaddr *)&server,sizeof(server))==-1){  
         printf("connect()error\n");  
         exit(1);  
     } 
+
+    //读写操作
     while(1){
         printf("ready to get data!\n");
     if((num=recv(sockfd,buf,MAXDATASIZE,0)) == -1){  
@@ -71,7 +75,7 @@ int eg_tcp_client(void)
         exit(1);  
     } 
     
-    buf[num-1]='\0';  
+    buf[num]='\0';  
     printf("Server Message: %s\n",buf); 
         }
     //if()

@@ -24,7 +24,7 @@
 #define MODULE_NAME "INIT"
 #include "cv_osal_dbg.h"
 
-
+#include "queue_msg.h"
 
 #define FIRMWARE_VERSION "V2.0.000" 
 #ifdef RELEASE
@@ -47,9 +47,16 @@ extern  void usbto322_init();
 
 extern     int eg_tcp_client(void);  
 
+
+eg_global_var_t eg_envar,*p_eg_envar;
+
+
 void global_init(void)
 {
+    p_eg_envar = &eg_envar;
 
+    memset(p_eg_envar,0,sizeof(eg_global_var_t));
+    
 }
 
 int main(int argc, char *argv[])
