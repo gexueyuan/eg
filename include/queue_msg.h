@@ -2,37 +2,71 @@
 #ifndef __QUEUE_MSG_H__
 #define __QUEUE_MSG_H__
 
+#include "cv_osal.h"
 
-enum SYSTEM_MSG_TYPE
+
+enum MSG_TYPE
 {
     SYS_MSG_BASE = 0x0000,       
     SYS_MSG_INITED,
     
     USB_MSG_CONNECT_SERVER,
-    SYS_MSG_KEY_RELEASED,
-    SYS_MSG_START_ALERT,
-    SYS_MSG_STOP_ALERT,
-    SYS_MSG_ALARM_ACTIVE,
-    SYS_MSG_ALARM_CANCEL,
-    SYS_MSG_GPS_UPDATE,
-    SYS_MSG_BSM_UPDATE,
-    SYS_MSG_HI_IN_UPDATE,
-    SYS_MSG_HI_OUT_UPDATE,
-    SYS_MSG_XXX,
 
-    VAM_MSG_BASE = 0x0200,
-    VAM_MSG_START,
-    VAM_MSG_STOP,
-    VAM_MSG_RCPTX,
-    VAM_MSG_RCPRX,
-    VAM_MSG_NEIGH_TIMEOUT,
-    VAM_MSG_GPSDATA,
 
-    EHM_MSG_BASE = 0x0400,
-    EHM_MSG_VSA_RECV_DONE,
-    EHM_MSG_VSA_SEND_DATA,
-    EHM_MSG_XXX
+    ACL_MSG_BASE = 0x0200,
+    ACL_MSG_SERCH,
+    ACL_MSG_STORE,
+
+
+    TCP_MSG_BASE = 0x0400,
+    TCP_MSG_SEND,//transfer to server
+    TCP_MSG_REC,
+    TCP_MSG_XXX
 };
+typedef struct _usb_var {
+
+
+    /* os related */
+    osal_task_t   *task_usb_r;
+    osal_task_t    *task_usb_w; 
+    osal_queue_t  *queue_usb;
+} usb_var_t;
+
+typedef struct _acl_var {
+
+    /* os related */
+    osal_task_t   *task_acl;
+    osal_queue_t  *queue_acl;
+} acl_var_t;
+
+typedef struct _acl_local {
+    /* os related */
+    osal_task_t   *task_acl_l;
+    osal_queue_t  *queue_acl_l;
+} acl_local_t;
+
+typedef struct _network {
+
+    
+    /* os related */
+    osal_task_t   *task_net;
+    osal_queue_t  *queue_net;
+} network_t;
+
+typedef struct _eg_global_var {
+
+    usb_var_t   usb;
+    acl_local_t acl_l;
+    acl_var_t   acl;
+    network_t net;
+    
+} eg_global_var_t;
+
+typedef struct _acl_data {
+    char id[9];
+    char payload[17];
+} acl_data_t;
+
 
 
 #endif
