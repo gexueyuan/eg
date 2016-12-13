@@ -9,7 +9,8 @@
            2016-12-11    gexueyuan    Created file
            ...
 ******************************************************************************/
- 
+#include "cv_cms_def.h"
+#include <queue_msg.h>
 
 
 

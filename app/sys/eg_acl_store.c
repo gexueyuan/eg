@@ -16,7 +16,7 @@
 #include <unistd.h> 
 #include <fcntl.h>
 #include <queue_msg.h>
-
+#include "cv_cms_def.h"
 
 /*****************************************************************************
  * declaration of variables and functions                                    *
@@ -30,7 +30,7 @@ FILE *fd;
 
     
     struct bin_tree {
-        acl_data_t data;
+        int data;
         struct bin_tree * right, * left;
     };
     typedef struct bin_tree node;
@@ -120,46 +120,46 @@ node* search(node ** tree, int val)
     }
 }
     
-    void main()
-    {
-        node *root;
-        node *tmp;
-        //int i;
-    
-        root = NULL;
-        /* Inserting nodes into tree */
-        insert(&root, 9);
-        insert(&root, 4);
-        insert(&root, 15);
-        insert(&root, 6);
-        insert(&root, 12);
-        insert(&root, 17);
-        insert(&root, 2);
-    
-        /* Printing nodes of tree */
-        printf("Pre Order Display\n");
-        print_preorder(root);
-    
-        printf("In Order Display\n");
-        print_inorder(root);
-    
-        printf("Post Order Display\n");
-        print_postorder(root);
-    
-        /* Search node into tree */
-        tmp = search(&root, 4);
-        if (tmp)
-        {
-            printf("Searched node=%d\n", tmp->data);
-        }
-        else
-        {
-            printf("Data Not found in tree.\n");
-        }
-    
-        /* Deleting all nodes of tree */
-        deltree(root);
-    }
+//    void main()
+//    {
+//        node *root;
+//        node *tmp;
+//        //int i;
+//    
+//        root = NULL;
+//        /* Inserting nodes into tree */
+//        insert(&root, 9);
+//        insert(&root, 4);
+//        insert(&root, 15);
+//        insert(&root, 6);
+//        insert(&root, 12);
+//        insert(&root, 17);
+//        insert(&root, 2);
+//    
+//        /* Printing nodes of tree */
+//        printf("Pre Order Display\n");
+//        print_preorder(root);
+//    
+//        printf("In Order Display\n");
+//        print_inorder(root);
+//    
+//        printf("Post Order Display\n");
+//        print_postorder(root);
+//    
+//        /* Search node into tree */
+//        tmp = search(&root, 4);
+//        if (tmp)
+//        {
+//            printf("Searched node=%d\n", tmp->data);
+//        }
+//        else
+//        {
+//            printf("Data Not found in tree.\n");
+//        }
+//    
+//        /* Deleting all nodes of tree */
+//        deltree(root);
+//    }
 
 
 
@@ -191,6 +191,7 @@ void * acl_local_thread_entry (void *parameter)
 
     } 
 
+/*
     while(1){
 
         err = osal_queue_recv(p_vam->queue_vam, buf, &len, OSAL_WAITING_FOREVER);
@@ -205,6 +206,7 @@ void * acl_local_thread_entry (void *parameter)
 
 
     }
+*/
 
 
 }

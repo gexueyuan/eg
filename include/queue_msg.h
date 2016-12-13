@@ -7,8 +7,8 @@
 
 enum MSG_TYPE
 {
-    SYS_MSG_BASE = 0x0000,       
-    SYS_MSG_INITED,
+    EG_MSG_BASE = 0x0000,       
+    EG_MSG_INITED,
     
     USB_MSG_CONNECT_SERVER,
 

@@ -70,7 +70,7 @@ void *eg_usbto322_thread_entry(void *parameter)
     while (1){
         osal_sleep(1000);
 
-    printf("eg_usbto322_thread_entry \n");
+    //printf("eg_usbto322_thread_entry \n");
 
         }
 }
