@@ -73,7 +73,7 @@ int main(int argc, char *argv[])
 		//osal_printf("\nFirm: %s[%s,%s %s]\n\n", FIRMWARE_VERSION, FIRMWARE_IDEN, __TIME__, __DATE__);
         
         //eg_tcp_client();  
-        //test();
+        test();
     }
 }
 

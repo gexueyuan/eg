@@ -64,9 +64,9 @@ int test()
             printf("\n*** OUTPUT:\n"); showReports(fd, HID_REPORT_TYPE_OUTPUT);
             printf("\n*** FEATURE:\n"); showReports(fd, HID_REPORT_TYPE_FEATURE);
   #endif
-    //show_all_report(fd);    
+    show_all_report(fd);    
 
-    //read_event(fd);
+    read_event(fd);
         
         close(fd);
         
@@ -193,7 +193,10 @@ int read_event(int fd)
      
      while(1)
      {
+     printf("begin to read data!\n");
      rd = read(fd, ev, sizeof(ev));
+
+     printf("finish to read data!\n");
      if (rd < (int) sizeof(ev[0])) {
         if (rd < 0)
          perror("\nevtest: error reading");
