@@ -1,14 +1,15 @@
 /*****************************************************************************
- Copyright(C) Beijing Carsmart Technology Co., Ltd.
+ Copyright(C) Tendyron Corporation
  All rights reserved.
  
  @file   : osal_queue.c
  @brief  : mqueue api adapt
- @author : wanglei
+ @author : gexueyuan
  @history:
-           2015-8-25    wanglei    Created file
+           2016-12-22    gexueyuan    Created file
            ...
 ******************************************************************************/
+
 #include "osal_queue.h"
 
 osal_queue_t *osal_queue_create(const char *qname, uint32_t max_msgs, uint32_t msg_size)

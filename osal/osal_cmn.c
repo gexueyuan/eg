@@ -1,15 +1,14 @@
 /*****************************************************************************
- Copyright(C) Beijing Carsmart Technology Co., Ltd.
+ Copyright(C) Tendyron Corporation
  All rights reserved.
  
  @file   : osal_cmn.c
  @brief  : common osal api
- @author : wanglei
+ @author : gexueyuan
  @history:
-           2015-8-11    wanglei    Created file
+           2016-12-22    gexueyuan    Created file
            ...
 ******************************************************************************/
-
 #include "osal_cmn.h"
 
 uint64_t osal_current_time(void)

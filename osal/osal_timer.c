@@ -1,12 +1,12 @@
 /*****************************************************************************
- Copyright(C) Beijing Carsmart Technology Co., Ltd.
+ Copyright(C) Tendyron Corporation
  All rights reserved.
  
- @file   : os_timer.c
- @brief  : timer 
- @author : wanglei
+ @file   : osal_timer.c
+ @brief  : timer
+ @author : gexueyuan
  @history:
-           2015-8-25    wanglei    Created file
+           2016-12-22    gexueyuan    Created file
            ...
 ******************************************************************************/
 

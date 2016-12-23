@@ -1,12 +1,12 @@
 /*****************************************************************************
- Copyright(C) Beijing Carsmart Technology Co., Ltd.
+ Copyright(C) Tendyron Corporation
  All rights reserved.
  
  @file   : osal_sem.c
  @brief  : Semaphore api
- @author : wanglei
+ @author : gexueyuan
  @history:
-           2015-8-25    wanglei    Created file
+           2016-12-22    gexueyuan    Created file
            ...
 ******************************************************************************/
 #include "osal_sem.h"

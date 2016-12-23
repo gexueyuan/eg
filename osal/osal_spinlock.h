@@ -1,15 +1,3 @@
-/*****************************************************************************
- Copyright(C) Beijing Carsmart Technology Co., Ltd.
- All rights reserved.
- 
- @file   : osal_spinlock.h
- @brief  : osal_spinlock.c header file
- @author : wanglei
- @history:
-           2015-8-14    wanglei    Created file
-           ...
-******************************************************************************/
-
 #ifndef _OSAL_SPINLOCK_H_
 #define _OSAL_SPINLOCK_H_
 

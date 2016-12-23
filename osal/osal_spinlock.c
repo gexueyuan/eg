@@ -1,14 +1,15 @@
 /*****************************************************************************
- Copyright(C) Beijing Carsmart Technology Co., Ltd.
+ Copyright(C) Tendyron Corporation
  All rights reserved.
  
  @file   : osal_spinlock.c
- @brief  : spinlock 
- @author : wanglei
+ @brief  : spinlock
+ @author : gexueyuan
  @history:
-           2015-12-9    wanglei    Created file
+           2016-12-22    gexueyuan    Created file
            ...
 ******************************************************************************/
+
 #include "osal_spinlock.h"
 
 int osal_spinlock_init(osal_spinlock_t *spinlock_id , OSAL_SPINLOCK_LEVEL level)

@@ -1,16 +1,3 @@
-/*****************************************************************************
- Copyright(C) Beijing Carsmart Technology Co., Ltd.
- All rights reserved.
- 
- @file   : osal_cmn.h
- @brief  : osal_cmn.c header file
- @author : wanglei
- @history:
-           2015-8-25    wanglei    Created file
-           ...
-******************************************************************************/
-
-
 #ifndef _OSAL_CMN_H_
 #define _OSAL_CMN_H_
 

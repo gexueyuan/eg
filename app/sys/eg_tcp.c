@@ -11,16 +11,6 @@
 ******************************************************************************/
 
 
-
-/*****************************************************************************
- * declaration of variables and functions                                    *
-*****************************************************************************/
-
-
-/*****************************************************************************
- * implementation of functions                                               *
-*****************************************************************************/
-
 #include <stdio.h>  
 #include <stdlib.h>  
 #include <unistd.h>  
@@ -32,7 +22,7 @@
 #include "cv_cms_def.h"
 #include <time.h>
 
-#define  USE_STR
+//#define  USE_STR
 
 #define    PORT 8020  
 #define    MAXDATASIZE 100000
@@ -63,10 +53,16 @@ char connect_array[] = {0x01,0x01,0x01,0x01,0x01,0x06,0x01,0xAA,0xBB,0xCC,0xDD,0
 
     #define    ACL_DL   0x4B
 
+    #define    DATA_END     0x03
+    #define    FRAME_END    0x04            
+
     
 #endif
 
 
+
+char sendByte[32];
+char getByte[2048];
 
 int print_time()
 {
@@ -90,13 +86,17 @@ int eg_tcp_send(char *data,int len)
 {
 
 
-    if( send(sockfd, data, len, 0) < 0){
+    int ret;
+
+    if( ret = send(sockfd, data, len, 0) < 0){
         
         printf("send msg error: %s(errno: %d)\n", strerror(errno), errno);
         return -1;
         
     }else{
 
+        
+        //printf("send msg len is %d\n",ret);
         printf("send msg is %s,len is %d\n",data,len);
     }
 
@@ -165,8 +165,8 @@ int eg_tcp_client(void)
 void * net_thread_entry (void *parameter)
 {
     int ret;
-    eg_tcp_send(CONNECT_STR,sizeof(CONNECT_STR)-1);
-    //eg_tcp_send(connect_array,sizeof(connect_array));
+    //eg_tcp_send(CONNECT_STR,sizeof(CONNECT_STR)-1);
+    eg_tcp_send(connect_array,sizeof(connect_array));
 
     while(1){
 
@@ -178,10 +178,12 @@ void * net_thread_entry (void *parameter)
                 //close(sockfd);  
                 //exit(1);  
         } 
+/*
         printf("ret is %d\n",ret);    
         buf[ret]='\0';  
         printf("Server Message: %s\n",buf);
         print_time();
+*/
 
         if(strncmp(CONNECT_ACK_STR,buf,sizeof(CONNECT_ACK_STR)) == 0 ){
 

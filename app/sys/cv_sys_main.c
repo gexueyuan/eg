@@ -42,7 +42,7 @@ extern  int hidapi_test();
 extern    int hidapi_v();
 
 
-extern  void usbto322_init();
+extern  void eg_usbto322_init();
 
 
 extern     int eg_tcp_client(void); 
@@ -65,7 +65,7 @@ int main(int argc, char *argv[])
 {
 //    system("./hostapd -d /etc/hostapd.conf -B");
     global_init();
-    usbto322_init();
+    eg_usbto322_init();
     eg_net_init();
     while (1){
         osal_sleep(1000);
@@ -73,7 +73,7 @@ int main(int argc, char *argv[])
 		//osal_printf("\nFirm: %s[%s,%s %s]\n\n", FIRMWARE_VERSION, FIRMWARE_IDEN, __TIME__, __DATE__);
         
         //eg_tcp_client();  
-        test();
+        //test();
     }
 }
 

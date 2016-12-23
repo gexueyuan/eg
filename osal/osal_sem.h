@@ -1,15 +1,3 @@
-/*****************************************************************************
- Copyright(C) Beijing Carsmart Technology Co., Ltd.
- All rights reserved.
- 
- @file   : osal_sem.h
- @brief  : osal_sem.c header file
- @author : wanglei
- @history:
-           2015-8-25    wanglei    Created file
-           ...
-******************************************************************************/
-
 #ifndef _OSAL_SEM_H_
 #define _OSAL_SEM_H_
 

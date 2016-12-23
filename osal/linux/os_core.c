@@ -1,14 +1,15 @@
 /*****************************************************************************
- copyright(c) beijing carsmart technology co., ltd.
- all rights reserved.
+ Copyright(C) Tendyron Corporation
+ All rights reserved.
  
  @file   : os_core.c
- @brief  : os api 
- @author : wanglei
+ @brief  : os api
+ @author : gexueyuan
  @history:
-           2015-7-30    wanglei    created file
+           2016-12-22    gexueyuan    Created file
            ...
 ******************************************************************************/
+
 
 #include "os_core.h"
  

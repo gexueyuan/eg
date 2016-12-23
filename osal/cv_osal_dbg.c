@@ -1,14 +1,3 @@
-/*****************************************************************************
- Copyright(C) Beijing Carsmart Technology Co., Ltd.
- All rights reserved.
- 
- @file   : cv_osal_debug.c
- @brief  : This is the global debug realization.
- @author : wangyf
- @history:
-           2014-11-13    wangyf    Created file
-           ...
-******************************************************************************/
 #include "cv_osal.h"
 #include "cv_osal_dbg.h"
 

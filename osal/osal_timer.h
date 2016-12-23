@@ -1,14 +1,3 @@
-/*****************************************************************************
- Copyright(C) Beijing Carsmart Technology Co., Ltd.
- All rights reserved.
- 
- @file   : os_timer.h
- @brief  : os_timer.h header file
- @author : wanglei
- @history:
-           2015-8-25    wanglei    Created file
-           ...
-******************************************************************************/
 #ifndef __OSAL_TIMER_H__
 #define __OSAL_TIMER_H__
 
