@@ -21,6 +21,8 @@
 #include <netdb.h>  
 #include "cv_cms_def.h"
 #include <time.h>
+#include <arpa/inet.h>
+
 
 //#define  USE_STR
 
@@ -50,14 +52,29 @@ char connect_array[] = {0x01,0x01,0x01,0x01,0x01,0x06,0x01,0xAA,0xBB,0xCC,0xDD,0
 #else
 
     char MSG_HEAD[4]={0x01,0x01,0x01,0x01};
+    
 
-    #define    ACL_DL   0x4B
 
     #define    DATA_END     0x03
-    #define    FRAME_END    0x04            
+    #define    FRAME_END    0x04 
+
+    #define    CMD_CONNECT  0x01
+    #define    CMD_POLL     0x05
+    #define    CMD_ACL_DL   0x4B
 
     
 #endif
+
+typedef struct _data_cs {
+
+    char msg_head[4];
+    uint8_t cmd;
+    uint16_t length;
+    uint8_t data_end;
+    uint16_t crc;
+    uint8_t frame_end;
+    uint8_t data[0];
+} data_cs_t;
 
 
 
@@ -105,9 +122,35 @@ int eg_tcp_send(char *data,int len)
 
 }
 
-void eg_tcp_main_proc()
+void eg_tcp_main_proc(int cmd,char *data,int length)
 {
 
+    switch (cmd) {
+        
+    case CMD_CONNECT:
+
+        if(!data[0])
+
+            printf("connect to server\n");
+
+        else
+            printf("connect failed");
+        
+        break;
+
+    case CMD_POLL:
+
+        eg_tcp_send(data,length);
+        
+        break;
+
+    case CMD_ACL_DL:
+
+        break;
+    
+    default:
+        break;
+    }
 
 
 
@@ -165,19 +208,50 @@ int eg_tcp_client(void)
 void * net_thread_entry (void *parameter)
 {
     int ret;
+
+    int len;
+
+    char cmd;
+
+    //data_cs_t* data_rev;
+    
     //eg_tcp_send(CONNECT_STR,sizeof(CONNECT_STR)-1);
     eg_tcp_send(connect_array,sizeof(connect_array));
 
     while(1){
 
 
-        if((ret=recv(sockfd,buf,MAXDATASIZE,0)) == -1){  
+        if((ret=recv(sockfd,getByte,sizeof(MSG_HEAD)+3,0)) == -1){  
             
-                printf("recv() error\n");
-                
-                //close(sockfd);  
-                //exit(1);  
+            printf("recv  header error\n");
+            
+            //close(sockfd);  
+            //exit(1);  
         } 
+
+        if((ret != (sizeof(MSG_HEAD)+3))||(memcmp(getByte,MSG_HEAD,4) != 0)){
+
+            break;
+
+        }
+
+        cmd = getByte[4];
+        len = ntohs(*(int*)(&getByte[5]));
+
+        printf("data len is %d\n",len);
+        
+        if((ret=recv(sockfd,getByte,len,0)) == -1){  
+            
+            printf("recv  data error\n");
+            
+            //close(sockfd);  
+            //exit(1);  
+        } 
+
+        eg_tcp_main_proc(cmd,getByte,len);
+
+        
+        
 /*
         printf("ret is %d\n",ret);    
         buf[ret]='\0';  
@@ -185,13 +259,15 @@ void * net_thread_entry (void *parameter)
         print_time();
 */
 
+        /*
+
         if(strncmp(CONNECT_ACK_STR,buf,sizeof(CONNECT_ACK_STR)) == 0 ){
 
             printf("connect success!\n");
 
 
         }
-/*
+
         if(strncmp(HBM_REC,buf,sizeof(HBM_REC)) == 0 ){
 
             eg_tcp_send(HBM_SEND,sizeof(HBM_SEND));

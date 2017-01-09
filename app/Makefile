@@ -8,7 +8,7 @@ SUBDIRS += $(TOPDIR)/app/sys
 
 
 OBJ_FILES=$(SUBDIRS:%=%/*.o)
-LDFLAGS = -lm -lrt -pthread -lusb-1.0 -L$(LIBDIR)/libudev -ludev
+LDFLAGS = -lm -lrt -pthread -lusb-1.0 -L$(LIBDIR)/libudev -ludev -L$(LIBDIR)/ -lsqlite3
 
 .PHONY: all clean app install
 all: app install 

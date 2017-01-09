@@ -161,7 +161,14 @@ node* search(node ** tree, int val)
 //        deltree(root);
 //    }
 
-
+typedef struct _acl_op {
+    ACL_SAVE = 0,
+    ACL_SEARCH,
+    ACL_DEL,
+    ACL_LOCK,
+    ACL_UNLOCK,
+        
+} acl_op_t;
 
 
 

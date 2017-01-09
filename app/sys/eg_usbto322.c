@@ -35,6 +35,11 @@
 #define USB_OK        0x9000 
 
 
+
+#define EUSB_SEND_PERIOD  200 
+
+
+
 typedef enum _USB_CMD {
     USB_CMD_CON = 0,
     USB_CMD_DATA,        
@@ -58,6 +63,10 @@ char USB_CMD[][4] = {
 
 char USB_GET[64];
 
+char usb_poll[] = {0x55,0xAA,0x5A,0xA5,0x00};
+
+
+hid_device *handle;
 
 //first element in data is 0
 int eg_write_to_322(hid_device * dev,const unsigned char * data,int length)
@@ -88,13 +97,6 @@ void eg_usb_main_proc(char *data,int len)
 
         }
         
-
-    }else{
-
-
-        printf("data length form usb is not enough\n");
-
-
 
     }
     
@@ -142,15 +144,62 @@ switch (msg) {
 *****************************************************************************/
 void *eg_usbto322_thread_entry(void *parameter)
 {
+    int ret = 0;
+    int i = 0;
+    
+    hid_set_nonblocking(handle,0);
+
+    memset(USB_GET,0,sizeof(USB_GET));
+    
+    while (1){
+        //osal_sleep(1000);
+
+    //printf("eg_usbto322_thread_entry \n");
+
+       ret =  hid_read(handle,USB_GET,sizeof(USB_GET));
+
+        if(ret){
+
+            for(;i < ret;i++){
+
+                printf("get data from 322 is %02X ");
+
+            }
+            printf("\n");
+            
+            eg_usb_main_proc(USB_GET,ret);
+
+        }
+        else{
+
+            printf("get 0 length data!\n");
+        }
+    }
+}
+
+uint8_t usb_wb;
+void timer_usb_callback(void)
+{
+
+   usb_wb =  hid_write(handle,usb_poll,sizeof(usb_poll));
+
+   if(usb_wb != sizeof(usb_poll)) {
+
+        printf("write poll  failed!\n");
+   }
+
+}
+
+
+void eg_usbto322_init()
+{
+
+    osal_task_t *tid;
+
+    osal_timer_t *timer_usb;
+
     // Enumerate and print the HID devices on the system
     struct hid_device_info *devs, *cur_dev;
-    
-    hid_device *handle;
-
-    int ret = 0;
-
-    int i = 0;
-
 
     devs = hid_enumerate(0, 0);
     cur_dev = devs; 
@@ -185,47 +234,7 @@ void *eg_usbto322_thread_entry(void *parameter)
 
         }
     } while(handle == NULL);
-
-
-    hid_set_nonblocking(handle,0);
-
-    memset(USB_GET,0,sizeof(USB_GET));
     
-    while (1){
-        //osal_sleep(1000);
-
-    //printf("eg_usbto322_thread_entry \n");
-
-       ret =  hid_read(handle,USB_GET,sizeof(USB_GET));
-
-        if(ret){
-
-            for(;i < ret;i++){
-
-                printf("get data from 322 is %02X ");
-
-            }
-            printf("\n");
-            
-            eg_usb_main_proc(USB_GET,ret);
-
-        }
-        else{
-
-            printf("get 0 length data!\n");
-        }
-    }
-}
-
-
-
-
-void eg_usbto322_init()
-{
-
-    osal_task_t *tid;
-
-
 
     tid = osal_task_create("tk_usb322",
                         eg_usbto322_thread_entry,
@@ -233,7 +242,11 @@ void eg_usbto322_init()
 
     osal_assert(tid != NULL)
 
-
-
+    
+    timer_usb = osal_timer_create("tm-usb",timer_usb_callback,NULL,\
+                        EUSB_SEND_PERIOD, TIMER_INTERVAL|TIMER_STOPPED, TIMER_PRIO_NORMAL);
+    osal_assert(timer_usb != NULL);
+    
+    osal_timer_start(timer_usb);
 
 }
