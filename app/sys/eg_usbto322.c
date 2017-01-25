@@ -21,9 +21,6 @@
  * implementation of functions                                               *
 *****************************************************************************/
 
-
-
-
 #include <stdio.h>
 #include <stdlib.h>
 #include "hidapi.h"
@@ -33,9 +30,6 @@
 
 #define USB_FAILED    0x6E00
 #define USB_OK        0x9000 
-
-
-
 #define EUSB_SEND_PERIOD  200 
 
 
@@ -61,11 +55,11 @@ char USB_CMD[][4] = {
                             
 };
 
-char USB_GET[64];
+unsigned char USB_GET[64];
 
-char usb_poll[] = {0x55,0xAA,0x5A,0xA5,0x00};
+const uint8_t  usb_poll[] = {0x55,0xAA,0x5A,0xA5,0x00};
 
-
+const uint8_t  usb_t[] = {0xfc,0xd5,0x18,0x00,0x00};
 hid_device *handle;
 
 //first element in data is 0
@@ -160,9 +154,13 @@ void *eg_usbto322_thread_entry(void *parameter)
 
         if(ret){
 
-            for(;i < ret;i++){
+            printf("get data from 322 len is %d:\n",ret); 
+            for(i = 0;i < ret;i++){
 
-                printf("get data from 322 is %02X ");
+                if(i%8 == 0) 
+                    printf("\n");
+
+                printf("%02X ",USB_GET[i]);
 
             }
             printf("\n");
@@ -180,13 +178,20 @@ void *eg_usbto322_thread_entry(void *parameter)
 uint8_t usb_wb;
 void timer_usb_callback(void)
 {
-
-   usb_wb =  hid_write(handle,usb_poll,sizeof(usb_poll));
+    int i;
+   usb_wb =  hid_write(handle,usb_t,sizeof(usb_poll));
 
    if(usb_wb != sizeof(usb_poll)) {
 
         printf("write poll  failed!\n");
    }
+/*
+   for(i = 0;i < sizeof(usb_poll);i++){
+
+        printf("%X ",usb_poll[i]);
+   }
+*/
+   printf("\n\r");
 
 }
 
@@ -235,6 +240,19 @@ void eg_usbto322_init()
         }
     } while(handle == NULL);
     
+    eg_write_to_322(handle,usb_t,sizeof(usb_t));
+
+    memset(USB_GET,0,sizeof(USB_GET));
+
+    hid_get_feature_report(handle,USB_GET,64);
+
+    int j;
+
+    for(j = 0;j < 64;j++){
+        printf("%X ",USB_GET[j]);
+
+    }
+    printf("\n");
 
     tid = osal_task_create("tk_usb322",
                         eg_usbto322_thread_entry,
@@ -247,6 +265,6 @@ void eg_usbto322_init()
                         EUSB_SEND_PERIOD, TIMER_INTERVAL|TIMER_STOPPED, TIMER_PRIO_NORMAL);
     osal_assert(timer_usb != NULL);
     
-    osal_timer_start(timer_usb);
+    //osal_timer_start(timer_usb);
 
 }
